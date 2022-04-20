@@ -1,0 +1,150 @@
+{% extends "website/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block nav-search %}active{% endblock %}
+
+{% block title %}
+    Glass Plates Inventory
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="topspacing"></div>
+    <div class="row">
+        
+        <div class="newsidebar d-none d-sm-none d-md-block col-lg-3 col-md-3 col-12">
+            <div>
+                <strong><a href="/api/?{{ request.GET.urlencode }}">View API Results</a></strong>
+                <br/><br/>
+                <strong>Query:</strong>
+                {% for x in query %}
+                    <br/>{{x}}
+                {% endfor %}
+
+                {% for key,val in query.items %}
+                    {{key}}: {{val}}<br/><br/>
+                {% endfor %}
+                <br/><br/>
+                <strong>Total Results:</strong> {{results_count}}<br/><br/>
+                <strong>Showing Results:</strong> {{num_start}} through {{num_end}}
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-9 offset-md-3" id="content">
+            <div class="mainstuff">
+
+                <h1>Search Results</h1>
+                <div>
+
+                    {% if no_res %}
+                        {{no_res}}
+                    {% else %}
+
+                    <table class="table">
+                        <tr>
+                            <th>Plate ID</th>
+                            <th>Archive</th>
+                            <th>RA</th>
+                            <th>Dec</th>
+                        </tr>
+                        {% for x in results %}
+                        <tr>
+                            <td><a href="/collections/{{x.archive}}/{{x.identifier}}">{{x.identifier}}</a><br/></td>
+                            <td>{{x.archive}}</td>
+                            <td>{{x.exposure_info.0.ra}}</td>
+                            <td>{{x.exposure_info.0.dec}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                    {% endif %}
+
+                </div>
+
+                <br/>
+                &nbsp;
+
+                <div class="row">
+                    <div class="col-3">
+                    </div>
+                    <div class="col-2">
+                        <div id="prevbuttondiv">
+                            <button type="button" id="firstpage" class="btn btn-primary">First</button>
+                            <button type="button" id="previouspage" class="btn btn-primary">Previous</button>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        Per Page : {{num_results}}
+                    </div>
+
+                    <div class="col-3">
+                        <div id="nextbuttondiv">
+                            <button type="button" id="nextpage" class="btn btn-primary">Next</button>
+                            <button type="button" id="lastpage" class="btn btn-primary">Last</button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                    </div>
+
+                </div>
+
+                <br/>
+                &nbsp;
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+        
+        // hide previous button if we're at the start
+        if ({{num_skip}}+1 <= 1) {
+            $("#prevbuttondiv").hide();
+        }
+
+        // hide next button if we are at the end
+        if ({{num_skip}} + {{num_results}} >= {{results_count}}){
+            $("#nextbuttondiv").hide();
+        }
+
+        // execute first button
+        $("#firstpage").click(function(){
+            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip=0")    
+            window.location.href = url;
+        });
+
+        // execute previous button
+        $("#previouspage").click(function(){
+            var skipamount = parseInt({{num_skip}}) - parseInt({{num_results}});
+            if (skipamount < 0) {
+                skipamount = 0;
+            }
+            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip="+skipamount)    
+            window.location.href = url;
+        });
+
+        // execute next button
+        $("#nextpage").click(function(){
+            var skipamount = parseInt({{num_results}}) + parseInt({{num_skip}});
+            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip="+skipamount)
+            window.location.href = url;
+        });
+
+        $("#lastpage").click(function(){
+            var skipamount = parseInt({{results_count}}) - parseInt({{num_results}}); 
+            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip="+skipamount)  
+            window.location.href = url;
+        });
+
+    });
+
+</script>
+
+
+{% endblock %}

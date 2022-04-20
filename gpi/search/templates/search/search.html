@@ -1,0 +1,216 @@
+{% extends "website/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block nav-search %}active{% endblock %}
+
+{% block title %}
+    Glass Plates Inventory
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="topspacing"></div>
+    <div class="row">
+
+        <div class="col-12" id="content">
+            <div class="mainstuff">
+
+                <h1>Search for Plates</h1>
+                    
+                <form method="get" id="platesearch">
+                    <!-- {% csrf_token %} -->
+                    <div class="row">
+                
+                        <div class="col-xl-4 col-lg-6">
+                            <fieldset class="half">
+                                <legend>Plate Search</legend>
+
+                                <div class="mb-3 row">
+                                    <label for="identifier" class="col-sm-4 col-form-label">Plate Identifier</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" value="{{identifier}}" name="identifier" id="identifier">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="archive" class="col-sm-4 col-form-label">Archive</label>
+                                    <div class="col-sm-7">
+                                        <select class="form-select" id="archive" name="archive" aria-label="Default select example">
+                                            <option value="all" selected>(select an archive)</option>
+                                            {% for x in archive %}
+                                                <option value="{{x}}">{{x}}</option>
+                                            {% endfor %}    
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+
+                            <fieldset class="half">
+                                <legend>Output</legend>
+                                <div class="mb-3 row">
+                                    <label for="num_results" class="col-sm-4 col-form-label">Number of Results</label>
+                                    <div class="col-sm-3">
+                                        <input type="number" class="form-control" name="num_results" id="num_results" min="1" max="1000" value="50">
+                                    </div>
+                                    <div class="col-5 col-form-label">
+                                        (max 1000)
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="num_skip" class="col-sm-4 col-form-label">Skip</label>
+                                    <div class="col-sm-3">
+                                        <input type="number" class="form-control" name="num_skip" id="num_skip" min="0" value="0">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="sort_order" class="col-sm-4 col-form-label">Sort Field</label>
+                                    <div class="col-sm-7">
+                                        <select id="sort_order" name="sort_order" class="form-select" aria-label="Default select example">
+                                            {% for x in sort_list %}
+                                                <option value="{{x.nickname}}">{{x.name}}</option>
+                                            {% endfor %}           
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+
+                        </div>
+
+
+                        <div class="col-xl-4 col-lg-6">
+
+                            <fieldset>
+                                <legend>Target Search</legend>
+
+                                <fieldset class="nested">
+                                    <div class="mb-3 row">
+                                        <label for="ra" class="col-sm-4 col-form-label">Right Ascension</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="ra" value="{{ra}}" name="ra" placeholder="h:m:s or decimal degrees">
+                                        </div>
+                                        {% if raerror %}
+                                        <div class="offset-sm-4 col-sm-7">
+                                            <div class="alert alert-danger alert-dismissible fade show p-1">{{raerror}}
+                                                <button type="button" class="close p-0 pr-2" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="dec" class="col-sm-4 col-form-label">Declination</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="dec" value="{{dec}}" name="dec" placeholder="d:m:s or decimal degrees">
+                                        </div>
+                                        {% if decerror %}
+                                        <div class="offset-sm-4 col-sm-7">
+                                            <div class="alert alert-danger alert-dismissible fade show p-1">{{decerror}}
+                                                <button type="button" class="close p-0 pr-2" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                <div class="centered">- OR -<br/>&nbsp;</div>
+
+                                    <div class="mb-3 row">
+                                        <label for="object" class="col-sm-4 col-form-label">Object</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" value="{{obj}}" name="object" id="object">
+                                        </div>
+                                        {% if objerror %}
+                                        <div class="offset-sm-4 col-sm-7">
+                                            <div class="alert alert-danger alert-dismissible fade show p-1">{{objerror}}
+                                                <button type="button" class="close p-0 pr-2" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </fieldset>
+
+                                <div class="mb-3 row">
+                                    <label for="date" class="col-sm-4 col-form-label">Radius</label>
+                                    <div class="col-sm-3">
+                                        {% if radius %}
+                                            <input type="number" class="form-control" name="radius" id="radius" min="1" max="30" value="{{radius}}">
+                                        {% else %}
+                                            <input type="number" class="form-control" name="radius" id="radius" min="1" max="30" value="10">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-5 col-form-label">
+                                        (max 30 arcminutes)
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+
+
+                        <div class="col-xl-4 col-lg-6">
+                            <fieldset>
+                                <legend>Additional Information</legend>
+                                
+                                <div class="mb-3 row">
+                                    <label for="freetext" class="col-sm-4 col-form-label">Free Text Search</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="text" id="text" value="{{text}}" placeholder="a word or short phrase">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="observer" class="col-sm-4 col-form-label">Observer/Astronomer</label>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" name="observer" id="observer" placeholder="" value="{{observer}}">
+                                    </div>
+                                </div>                               
+
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-1">
+                            <br/>
+                            <button type="button" class="btn btn-primary" id="searchsubmit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        $("#searchsubmit").click(function(){
+            items = $('form').serializeArray()
+            queryurl = ""
+            for (i=0; i<items.length;i++) {
+
+                if (items[i]["value"] != ""){
+                    queryurl+="&"+items[i]["name"]+"="+items[i]["value"]
+                }
+            }
+            outurl = window.location.href+"result/?"+queryurl.substring(1)
+            window.location.href = outurl;
+        });
+        
+    });
+
+</script>
+
+
+{% endblock %}

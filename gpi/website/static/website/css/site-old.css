@@ -1,0 +1,210 @@
+
+/*
+
+
+https://coolors.co/704214-4e350e-ffeacb-142b70-0e1e4e
+https://coolors.co/f3c6a5-aa8e74-fff5eb-a5d4f3-7494aa
+
+https://coolors.co/704214-aa8e74-fff5eb-a5d4f3-7494aa-0e1e4e
+
+*/
+
+/**** full site ****/
+
+/* all CSS for small screens, but if larger screen then....*/
+/* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {  
+
+    div.newsidebar {
+        padding-right: 20px;
+        padding-left: 20px;
+        padding-bottom: 20px;
+        position:fixed;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: calc(100vh - 80px);
+    }
+}
+
+div.topspacing {
+    margin-top: 80px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    z-index: 8;
+}
+
+div.mainstuff {
+    min-height: calc(100vh - 230px);
+}
+
+.nav-link {
+    display: block;
+    padding: .5rem .5rem;
+}
+
+/* default bootstrap constrast isn't good enough */
+a:hover, a:active {
+    color: #24557F; /*#3173AC*/
+}
+
+a {
+    color: #3173AC; /*#337AB7;*/
+}
+
+body {
+    background-color: #fefefe;
+}
+
+.bg-light, .index-top {
+    background-color: #e3d9d0 !important;
+}
+
+.navbar-light .navbar-brand {
+    color:  #0e1e4e;
+}
+
+.navbar-light .navbar-nav .active > .nav-link {
+    color:  #0e1e4e;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #5f6c75; /*#7494aa;*/
+}
+
+.btncolor {
+    background-color: #4e687e !important;
+}
+
+
+
+/*** metasat elements pages ***/
+
+ul.alpha {
+    margin: 0;
+    padding: 0;
+}
+
+li.letter {
+    width: 11.11%;
+    line-height: 2rem;
+    text-align: center;
+    list-style: none;
+    float: left;
+}
+
+/**** related to search ****/
+
+mark {
+    background-color: yellow;
+    padding: 0;
+}
+
+
+/**** resource pages ****/
+
+/* source: https://www.w3schools.com/tags/tag_code.asp */
+code { 
+    font-family: Consolas,"courier new";
+    color: crimson;
+    /*background-color: #f1f1f1;*/
+    padding: 2px;
+    font-size: 105%;
+  }
+
+pre {
+    background-color: #444444;
+    color: #cccccc;
+    width: 80%;
+    overflow-x: scroll;
+}
+
+.subject {
+    color: #DE2A12;
+    font-weight: bold;
+}
+
+.predicate {
+    color: #601A4A;
+    font-style: italic;
+}
+
+.object {
+    color: #3C7F90;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.anchor {
+    position:relative;
+    top:-75px;
+}
+
+.card-body {
+    padding: .5rem; 
+}
+
+.card-deck .card {
+    margin-bottom: 1rem;
+    margin-left: 0rem;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+}
+
+
+@media (min-width: 768px) {
+  .card-deck .card {
+    margin-right: 3%;
+    -ms-flex: 0 0 47%;
+    flex: 0 0 47%;
+  }
+}
+
+.card-deck {
+    margin: 0;
+} /**Do not remove, prevents unecessary horizontal scroll bar on resources page**/
+
+/**basic-table is on the basic topics page**/
+
+table#basic-table {
+    border-collapse: collapse;
+}
+
+table#basic-table, th.basic-header, td.basic-data {
+    border: 1px solid black;
+}
+
+th.basic-header, td.basic-data {
+    padding: 10px;
+}
+
+/**** not sure what pgs these relate to ****/
+
+.panel-heading {
+  background-color: #014e6d!important;
+}
+
+.panel-button a {
+    color: white !important;
+}
+
+.panel-button {
+    font-weight: bold;
+    font-size: 20px;
+    color: #fff !important; 
+    /* text-decoration: underline;*/
+    text-decoration: none;
+}
+
+.panel-button:hover {
+    font-weight: bold;
+    font-size: 20px;
+    color: #fff !important; 
+    /* text-decoration: underline;*/
+    text-decoration: none;
+}
+
+
+
+.centered {
+    text-align: center;
+}

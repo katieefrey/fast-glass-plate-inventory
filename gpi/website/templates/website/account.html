@@ -1,0 +1,147 @@
+{% extends "website/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block nav-home %}active{% endblock %}
+
+{% block title %}
+    MetaSat Account
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+
+        <div class="row">            
+            <div class="col-3 sidebar"><br/><br/>
+            </div>
+
+            <div class="col-9 sidebar offset-3">
+                <div id="content">
+
+{% if state == "register" %}
+
+       
+    <h1>Register a New Account</h1>
+    <br/>
+
+
+    {% if error != "" %}
+    <div class="alert alert-danger" role="alert">
+        {{error | safe}}
+    </div>
+    {% endif %}
+
+    <form action="{% url 'registering' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group col-md-4">
+            <label for="inputUsername">Username</label>
+            <input type="username" class="form-control" id="inputUsername" name="inputUsername" placeholder="Enter Username">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputFirst">First Name</label>
+            <input type="First" class="form-control" id="inputFirst" name="inputFirst" placeholder="Enter First Name">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputLast">Last Name</label>
+            <input type="Last" class="form-control" id="inputLast" name="inputLast" placeholder="Enter Last Name">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputEmail">Email</label>
+            <input type="Email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Enter Email">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputPassword">Password</label>
+            <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Password">
+            <small id="userHelp" class="form-text text-muted">Username and Password are case sensitive.</small>
+            <small id="userHelp" class="form-text text-muted">All fields required.</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+{% elif state == "login" %}
+
+        <h1>Log In to Your Account</h1>
+        <br/>
+
+        {% if error != "" %}
+        <div class="alert alert-danger" role="alert">
+            {{error | safe}}
+        </div>
+        {% endif %}
+
+        <form action="{% url 'login_view' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group col-md-4">
+                <label for="inputUsername">Username</label>
+                <input type="username" class="form-control" id="inputUsername" name="inputUsername" placeholder="Enter Username">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputPassword">Password</label>
+                <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Password">
+                <small id="userHelp" class="form-text text-muted">Username and Password are case sensitive.</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <br/>
+        <!-- <a href="/register">Register</a> -->
+        If you believe you should have access,<br/>
+        contact Daniel Chivvis or Katie Frey.
+
+
+{% elif state == "loggedin" %}
+       
+    <h1>MetaSat Admin</h1>
+
+    <h3>Hi {{user.first_name}}!</h3>
+    <br/>
+    You are now logged in as a MetaSat Admin.  Edit options will appear on Element and Crosswalk pages.
+    <br/>
+    go to <a href="/logout">http://schema.space/logout</a> to logout.
+    <br/>
+    <br/>
+    <h5>Change Your Password</h5>
+        {% if error != "" %}
+            <div class="alert alert-danger" role="alert">
+                {{error | safe}}
+            </div>
+        {% endif %}
+
+        {% if update != "" %}
+            <div class="alert alert-success" role="alert">
+                {{update | safe}}
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group col-md-4">
+                {{ pwform | crispy }}
+            </div>
+            <br/> 
+            <button type="submit" class="btn btn-primary">Change Password</button>
+        </form>
+
+
+{% else %}
+
+    <h1>MetaSat Admin</h1>
+    <br/>
+    <h3>Hello</h3>
+    <br/>
+    If you believe you should have access,<br/>
+    contact Daniel Chivvis or Katie Frey.
+
+{% endif %}
+
+
+
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

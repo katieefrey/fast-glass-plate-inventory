@@ -1,0 +1,310 @@
+{% extends "website/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load to_space %}
+
+{% block nav-collections %}active{% endblock %}
+
+{% block title %}
+    Glass Plates Inventory
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="topspacing"></div>
+    <div class="row">
+        
+        <div class="newsidebar d-none d-sm-none d-md-block col-lg-3 col-md-3 col-12">
+        </div>
+
+        <div class="col-sm-12 col-md-9 offset-md-3" id="content">
+            <div class="mainstuff">
+                <h1>Adding an Archive to the Glass Plates Inventory</h1>
+
+                <p>The Glass Plates Inventory site uses a noSQL database to store astronomical photographic glass plates records.  A noSQL database is a collection of JSON documents.  An introduction to noSQL databases and how they compare to SQL databases can be found here.</p>
+
+                <p>There are two main document stores used by the Glass Plates Inventory:
+                <ul>
+                    <li>Records that describe archives</li>
+                    <li>Records that describe glass plates</li>
+                </ul></p>
+
+                <p>Each of these record types contain a mix of required and recommended fields, with a set structure.  The GPI would expect to receive a single Archive Record to describe the archive, and then a separate JSON record for each plate in the collection.</p>
+
+                <h2>Archive Records</h2>
+                
+                <p>These are fairly simple documents that provide the name of an archive, an identifier for the archive, a url, a description, and a list of interesting / unique glass plate fields.  All but the last item are required fields for Archive Records.  The list of unique glass plate fields will be used to augment archive specific search pages, though some of that information may also be searchable from the main GPI search pages as well.</p>
+
+                <ul>
+                    <li>_id - the database record id, this field is auto generated when a new record is added to the noSQL store</li>
+                    <li>identifier - a short nickname, one word or acronym with no spaces, to identify the archive</li>
+                    <li>name - the full name of the archive written out</li>
+                    <li>url - the URL for the archive or observatory’s main website</li>
+                    <li>desc - a short description, 3-4 sentences, about the archive</li>
+                    <li>fields - a list of interesting fields found in the glass plate records for items in this archive and form types for each field</li>
+                </ul>
+
+                <h3>Example Archive Records</h3>
+
+                <pre>[{
+    "identifier": "DASCH",
+    "name": "Digital Access to a Sky Century @ Harvard",
+    "url": "http://dasch.rc.fas.harvard.edu/",
+    "desc": "A unique project at the Harvard College Observatory that aims to
+            digitize the majority of the Astronomical Photographic Plate
+            Collection's 500,000 glass plate negatives and produce full
+            photometry results for the entire sky. The DASCH project is
+            uniquely designed for Time Domain Astronomy/Astrophysics, which is
+            one of the most prioritized fields of study in astrophysics today.
+            The stars photographed on glass plates between 1880s-1990s operate
+            as time capsules, allowing astronomers to study how the sky has
+            changed over one hundred years.",
+    "fields": [{
+        "name": "obs_info.observatory",
+        "type" : "text"
+    },
+    {
+        "name": "obs_info.latitude",
+        "type" : "number"
+    },
+    {
+        "name": "obs_info.longitude",
+        "type" : "number"
+    },
+    {
+        "name": "obs_info.telescope",
+        "type" : "text"
+    }]
+},
+
+{
+    "identifier": "mmoapc",
+    "name": "Maria Mitchell Observatory Astronomical Plate Collection",
+    "url": "https://www.mariamitchell.org/astronomical-plates-collection",
+    "desc": "The MMO plate collection, consisting of approximately 8,000
+            photographic glass plates, was produced by the efforts of several
+            professional astronomers and hundreds of students from 1913 to
+            1995. While not as large, it is one of the richest and most uniform
+            for a few selected areas of the sky in the constellations of
+            Cygnus, Sagittarius, and Scutum that are especially rich in
+            variable stars.",
+        "fields": [
+        {
+            "name": "plate_info.emulsion",
+            "type" : "dropdown"
+        },
+        {
+            "name": "exposure_info.calendar_date",
+            "type" : "date"
+        }
+    ]
+}]</pre>
+
+
+                <h2>Glass Plate Records</h2>
+                
+                <p>These records describe individual plates to varying degrees of detail and they are the main feature of the Glass Plates Inventory.  There are only two absolutely required fields in a glass plate record, though three additional fields are very strongly recommended, and three more are recommended.</p>
+
+                <h3>General Fields</h3>
+
+                <p>The first three general fields are all required:</p>
+                <ul>
+                    <li>_id - the database record id, this field is autogenerated when a new record is added to the noSQL store</li>
+                    <li>identifier - the plate identifier used within the archive, how it is uniquely identified within its own archive, this does NOT need to unique between archives</li>
+                    <li>archive - the archive identifier, must correspond to the identifier in the Archive Record that accompanies the Glass Plate Records</li>
+                </ul>
+
+                <p>After those, the rest of these records can be very different from plate to plate, depending on the information available, and are organized into three main categories:</p>
+                <ol>
+                    <li>Information about the plate</li>
+                    <li>Information about the observatory</li>
+                    <li>Information about the photographic exposures</li>
+                </ol>
+
+                <h3>Plate Information</h3>
+                
+                <p>There are no required fields under this category, but there are some fields currently in use in the database which might be useful to consider:</p>
+                <ul>
+                    <li>multi - number of exposures taken on the plate, only needed if each exposure is not detailed individually (see Exposure Information)</li>
+                    <li>emulsion - the photographic emulsion used on the plate</li>
+                    <li>filter - the filter used on this photographic plate</li>
+                    <li>band - the spectral band this plate has captured</li>
+                    <li>type - direct or spectral plate</li>
+                    <li>observer - the name of the astronomer who took the plate</li>
+                    <li>notes - general free text notes about the plate</li>
+                </ul>
+
+                <p>Other fields as determined by your archive can be added as well, the main thing to consider is that this information should be generalizable about the actual photographic glass plate itself.  These might include notes about plate availability or digitization status, or information about the dimensions of the plate. This could also be the place to add information about plate series or sub collections within the archive.</p>
+
+                <h3>Observatory Information</h3>
+                <p>There are <u>no required fields</u> under this category, but there are some fields currently in use in the database which might be useful to consider:</p>
+                <ul>
+                    <li>observatory - the name of the observatory this plate was taken</li>
+                    <li>instrument / telescope - the name of the instrument or telescope used to take this plate</li>
+                    <li>longitude / latitude - the location of the telescope or observatory</li>
+                    <li>notes - general free text notes about the observatory</li>
+                </ul>
+
+                <p>Other fields as determined by your archive can be added as well, the main thing to consider is that this information should be generalizable about the observatory where the photographic glass plate was exposed and the instruments used.  These might include information about the telescope aperture or textual information describing the location of the observatory.</p>
+
+                <h3>Exposure Information</h3>
+                <p>Other than the identifier and the archive this is the most important part of a glass plate record.   Unlike the other categories, this section is organized into a list.</p>
+
+                <p>The intention is that each exposure would have its own list entry if possible.  If multiple exposures are present on a plate, but detailed information about each exposure is not available, but the plate has multiple exposures, it is recommended that the archive use the “multi” field under “Plate Information” to at least provide the number of exposures.  If the multiple exposures are present on the plate, and details of each are known, then that information is shared in this section.</p>
+
+                <p>This section contains some very strongly recommended (almost required) fields, along with other recommended fields, as other fields current in use in the database that might be useful to consider for each exposure:</p>
+
+                <h4>Very Strongly Recommended</h4>
+                <ul>
+                    <li>number - which number exposure on the plate is the one currently described</li>
+                    <li>ra - the right ascension at the center of the plate, can be in h:m:s or decimal degrees, or whichever format is most preferred by the archive</li>
+                    <li>ra_deg - if the ra field exists, then this field must also exist.  It contains the right ascension at the center of the plate and in decimal degrees</li>
+                    <li>dec - the declination at the center of the plate, can be in degrees, minutes, seconds, or decimal degrees, whichever format is most preferred by the archive</li>
+                    <li>dec_deg - if the dec field exists, then this field must also exist.  It contains the declination at the center of the plate and in decimal degrees</li>
+                    <li>jd2000 - the julian date as JD2000 for the exposure</li>
+                    <li>duration - the duration of the exposure, in whatever unit your archive prefers</li>
+                </ul>
+
+                <p>Other fields as determined by your archive can be added as well, the main thing to consider is that this information should be about a specific exposure on the photographic glass plate.  This might include notes about the weather when the plate was exposed or the target the plate was intended to photograph.</p>
+
+                <h2>Example Glass Plate Records</h2>
+                <p>((these need to be updated))</p>
+
+                <pre>{
+    "_id": "6223ea08bf295e87c9e7f9b8",
+    "identifier": "mc493",
+    "archive": "DASCH",
+    "plate_info": {
+        "series": "mc",
+        "number": "493",
+        "plate_class": "L"
+    },
+    "exposure_info": [{
+        "number": "0",
+        "time": {
+            "value": "1380",
+            "unit": "min"
+            },
+        "ra": "18:36:07.119",
+        "ra_deg": "279.0297",
+        "dec": "-24:00:07.88",
+        "dec_deg":  "-24.0022",
+        "julian_date": "2418884.083"
+    }],
+    "obs_info": {
+        "observatory": "Cambridge",
+        "latitude": "42.38",
+        "longitude": "71.1292",
+        "telescope": "16-inch Metcalf Doublet (Refigured after 3500)",
+        "aperture": {
+            "value": "0.4",
+            "unit": "m"
+        },
+        "scale": {
+            "value": "97.9",
+            "unit": "arcsec/nm"
+        }
+    }
+},
+
+{
+    "_id": "6223ea08bf295e87c9e7f9bb",
+    "identifier": "CA07235z",
+    "archive": "Hamburg",
+    "plate_info": {
+            "emulsion": "Kodak IIIa-F (hyp.-sens.)"
+    },
+    "exposure_info": [{
+        "number": "0",
+        "ra": "17:05:04",
+        "ra_deg": "256.2667",
+        "dec": "-10:07:43",
+        "dec_deg": "-10.1286",
+        "time": {
+            "value": "5",
+            "unit": "min"
+        },
+        "calendar_date": “1989-07-29/30"
+    }],
+    "obs_info": {
+            "telescope": "Calar-Alto-Teleskop"
+    }
+},
+
+{
+    "_id": "6223f01060b6cfeaacac76e0",
+    "identifier": "AAO390 001808",
+"archive": "WFPDB",
+    "exposure_info": [{
+        "number": "0",
+        "ra": "159.29584",
+        "ra_deg": "159.2958",
+        "dec": "-27.596945",
+        "dec_deg": "-27.5969",
+        "coord_quality": null,
+        "julian_date": "1980.1370092148954",
+        "date_quality": null,
+        "time": {
+            "value": "5400.0",
+            "unit": "sec"
+        },
+        "target": "ABELL 1060",
+        "target_type": "cluster of galaxies”
+    }],
+    "obs_info": {
+            "instrument": "AAO390"
+    },
+    "plate_info": {
+        "emulsion": "IIaO",
+        "type": "direct photograph",
+        "filter": "UG1",
+        "band": "U",
+        "width": {
+                "value": "25.0",
+                "unit": "cm"
+        },
+        "height": {
+            "value": "25.0",
+            "unit": "cm"
+        },
+        "observer": null,
+        "notes": "POSITION ANGLE 180; PF2 CORRECTOR",
+        "quality": "SEEING 1.5",
+        "availability_note": null,
+        "digitization_note": null
+}
+},
+
+{
+    "_id": "6237bb906bfb4d7ed5c37502",
+    "identifier": "1671",
+    "archive": "mmoapc",
+    "plate_info": {
+            "notes": "Mer+Equ"
+    },
+    "obs_info": {
+        "instrument": "7.5-inch Cooke/Clark refractor",
+        "observatory": "Maria Mitchell Observatory"
+    },
+    "exposure_info": [{
+        "number": "0",
+        "ra": "0:0:00",
+        "ra_deg": "0.0",
+        "dec": "0.0",
+        "dec_deg": "0.0",
+        "calendar_date": "August 03, 1934",
+        "time": {
+            "value": "10",
+            "unit": "min"
+        }
+    }]
+}</pre>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

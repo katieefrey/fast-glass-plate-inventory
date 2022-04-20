@@ -1,0 +1,35 @@
+{% extends "website/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load to_space %}
+
+{% block nav-docs %}active{% endblock %}
+
+{% block title %}
+    Glass Plates Inventory
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="topspacing"></div>
+    <div class="row">
+        
+        <div class="newsidebar d-none d-sm-none d-md-block col-lg-3 col-md-3 col-12">
+        </div>
+
+        <div class="col-sm-12 col-md-9 offset-md-3" id="content">
+            <div class="mainstuff">
+                <h1>API Landing Page</h1>
+
+                    <p><a href="/docs">API Documentation</a></p>
+
+                    <p><a href="/api/items">API Items</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

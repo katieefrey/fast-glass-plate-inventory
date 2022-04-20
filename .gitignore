@@ -1,0 +1,56 @@
+data/
+dasch/
+public/
+data.zip
+gpi/*data*.*
+gpi/*.txt
+gpi/*.json
+gpi/*.xls
+gpi/*.csv
+gpi/*convert*.*
+gpi/singledasch*.*
+gpi/main/secrets.py
+gpi/main/secrets_online.py
+passenger_wsgi.py
+*.pyc
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
