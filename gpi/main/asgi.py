@@ -14,9 +14,36 @@ from starlette.middleware.cors import CORSMiddleware
 
 from api.endpoints import api_router
 
+from importlib.util import find_spec
+from fastapi.staticfiles import StaticFiles
+
+from main.settings import STATIC_ROOT
+
 
 def get_application() -> FastAPI:
     app = FastAPI(title=settings.PROJECT_NAME, debug=settings.DEBUG)
+
+    #print(STATIC_ROOT)
+
+    app.mount('/static',
+        StaticFiles(
+             directory=os.path.normpath(
+                  os.path.join(STATIC_ROOT, '..', 'static')
+             )
+       ),
+       name='static',
+    )
+
+    # app.mount('/static',
+    #     StaticFiles(
+    #          directory=os.path.normpath(
+    #               os.path.join(find_spec('django.contrib.admin').origin, '..', 'static')
+    #          )
+    #    ),
+    #    name='static',
+    # )
+    #app.mount("/public/static", StaticFiles(directory="public/static"), name="static")
+
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.ALLOWED_HOSTS or ["*"],

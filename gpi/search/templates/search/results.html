@@ -16,7 +16,7 @@
         
         <div class="newsidebar d-none d-sm-none d-md-block col-lg-3 col-md-3 col-12">
             <div>
-                <strong><a href="/api/?{{ request.GET.urlencode }}">View API Results</a></strong>
+                <strong><a href="/api/plates?{{ request.GET.urlencode }}">View API Results</a></strong>
                 <br/><br/>
                 <strong>Query:</strong>
                 {% for x in query %}
@@ -27,7 +27,7 @@
                     {{key}}: {{val}}<br/><br/>
                 {% endfor %}
                 <br/><br/>
-                <strong>Total Results:</strong> {{results_count}}<br/><br/>
+                <strong>Total Results:</strong> {{total}}<br/><br/>
                 <strong>Showing Results:</strong> {{num_start}} through {{num_end}}
             </div>
         </div>
@@ -77,7 +77,7 @@
                     </div>
 
                     <div class="col-2">
-                        Per Page : {{num_results}}
+                        Per Page : {{limit}}
                     </div>
 
                     <div class="col-3">
@@ -104,41 +104,41 @@
     $( document ).ready(function() {
         
         // hide previous button if we're at the start
-        if ({{num_skip}}+1 <= 1) {
+        if ({{skip}}+1 <= 1) {
             $("#prevbuttondiv").hide();
         }
 
         // hide next button if we are at the end
-        if ({{num_skip}} + {{num_results}} >= {{results_count}}){
+        if ({{skip}} + {{limit}} >= {{total}}){
             $("#nextbuttondiv").hide();
         }
 
         // execute first button
         $("#firstpage").click(function(){
-            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip=0")    
+            url = window.location.href.replace("skip="+{{skip}},"skip=0")    
             window.location.href = url;
         });
 
         // execute previous button
         $("#previouspage").click(function(){
-            var skipamount = parseInt({{num_skip}}) - parseInt({{num_results}});
+            var skipamount = parseInt({{skip}}) - parseInt({{limit}});
             if (skipamount < 0) {
                 skipamount = 0;
             }
-            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip="+skipamount)    
+            url = window.location.href.replace("skip="+{{skip}},"skip="+skipamount)    
             window.location.href = url;
         });
 
         // execute next button
         $("#nextpage").click(function(){
-            var skipamount = parseInt({{num_results}}) + parseInt({{num_skip}});
-            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip="+skipamount)
+            var skipamount = parseInt({{limit}}) + parseInt({{skip}});
+            url = window.location.href.replace("skip="+{{skip}},"skip="+skipamount)
             window.location.href = url;
         });
 
         $("#lastpage").click(function(){
-            var skipamount = parseInt({{results_count}}) - parseInt({{num_results}}); 
-            url = window.location.href.replace("num_skip="+{{num_skip}},"num_skip="+skipamount)  
+            var skipamount = parseInt({{total}}) - parseInt({{limit}}); 
+            url = window.location.href.replace("skip="+{{skip}},"skip="+skipamount)  
             window.location.href = url;
         });
 

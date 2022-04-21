@@ -1,10 +1,12 @@
 from django.urls import path
+from django.views.generic import RedirectView
 
 from . import views
 
 urlpatterns = [
     path('', views.index, name='mainindex'),
-    path('documentation', views.docs, name='docs'),
+    path('docs/', RedirectView.as_view(url='/docs')), 
+    path('documentation/', views.docs, name='docs'),
     path('documentation/nosql', views.nosql, name='nosql'),
     path('documentation/addarchive', views.addarchive, name='addarchive'),
     # path('about', views.about, name='about'),

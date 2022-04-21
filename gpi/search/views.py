@@ -50,8 +50,10 @@ def index(request):
 
 def result(request):
 
-    apiurl = request.build_absolute_uri().replace("search/result","api")+"&format=json"
+    apiurl = request.build_absolute_uri().replace("search/result","api/plates")
     r = (requests.get(apiurl)).json()
+
+    print(apiurl)
 
     context = {
         "results" : r["results"] 
@@ -67,14 +69,14 @@ def result(request):
     if len(r["results"]) == 0:
         context["no_res"] = "No results!"
 
-    context["results_count"] = r["total_results"]
+    context["total"] = r["total"]
     try:
-        context["num_start"] = r["start"]
-        context["num_end"] = r["end"]
-        context["num_skip"] = r["num_skip"]
+        # context["num_start"] = r["start"]
+        # context["num_end"] = r["end"]
+        context["skip"] = r["skip"]
     except:
         pass
     
-    context["num_results"] = r["num_results"]
+    context["limit"] = r["limit"]
    
     return render(request, "search/results.html", context)
