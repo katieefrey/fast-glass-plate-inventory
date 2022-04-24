@@ -1,8 +1,9 @@
 {% extends "website/base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% load to_space %}
 
-{% block nav-collections %}active{% endblock %}
+{% block nav-contact %}active{% endblock %}
 
 {% block title %}
     Glass Plates Inventory
@@ -19,18 +20,13 @@
 
         <div class="col-sm-12 col-md-9 offset-md-3" id="content">
             <div class="mainstuff">
+                <h1>Contact</h1>
 
-                <h1>Archives</h1>
-                
-                {% for x in details %}
-                    <div class="repository">
-                        <h2>{{x.name}}</h2>
-                        <p><a href="{{x.url}}">{{x.url}}</a></p>
-                        <p>Archive Code: <a href="/archives/{{x.identifier}}/">{{x.identifier}}</a></p>
-                        <p>{{x.desc}}</p>
-                    </div>
-                {% endfor %}
-
+                    <p><strong>Site Developed by Katie Frey</strong><br/>
+                        Assistant Head & Digital Technologies Development Librarian<br/>
+                        Wolbach Library, Center for Astrophysics | Harvard & Smithsonian<br/>
+                        kfrey@cfa.harvard.edu</p>
+                    </p>
             </div>
         </div>
     </div>

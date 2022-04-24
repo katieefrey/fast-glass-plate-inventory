@@ -15,8 +15,21 @@ from pathlib import Path
 import os
 from .secrets import *
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+
+import django_heroku
+import whitenoise
+import dj_database_url
+import dotenv
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
+
+# # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -30,7 +43,7 @@ DEBUG = True
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
 #local
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://glassplateinv.herokuapp.com/','http://glassplateinv.herokuapp.com/','127.0.0.1']
 
 #live
 #ALLOWED_HOSTS = ['wolba.ch' , 'www.wolba.ch','127.0.0.1']
@@ -61,6 +74,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware", #HEROKU
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -147,9 +161,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.dirname(BASE_DIR) + '/public/static/'
+# STATIC_ROOT = os.path.dirname(BASE_DIR) + '/public/static/'
+
+# STATIC
+STATIC_URL = "/static/"
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -158,3 +178,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 PROJECT_NAME = "glass-plates-inventory"
+
+
+# HEROKU
+# Add configuration for static files storage using whitenoise
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+django_heroku.settings(locals())

@@ -22,7 +22,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <!-- favicon -->
-    <link rel="icon" type="image/png" href="{% static 'website/img/flavicon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'website/img/favicon.png' %}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni&family=Lora&family=Merriweather&family=Nunito:wght@300&display=swap" rel="stylesheet"> 
 
     <!-- additional css -->
     <link href="{% static 'website/css/site.css' %}" rel="stylesheet">
@@ -35,102 +40,58 @@
 <body>
 
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 index-top">
-                    &nbsp;<br>&nbsp;<br>&nbsp;<br>
-                    <p class="centered"><span class="main_color h1">Glass Plates Inventory</span></p>
-                    &nbsp;<br>&nbsp;<br>
-                </div>
-                <div class="col-12 index-top p-0">
-                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                        <div class="container-fluid">
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-
-                            <div class="collapse navbar-collapse" id="navbarResponsive">
-
-                                <ul class="navbar-nav ml-auto">
-
-                                    <li class="nav-item">
-                                        <a class="nav-link sr-only sr-only-focusable" href="#content">Skip to main content</a>
-                                    </li>
-                                    <li class="nav-item {% block nav-resources %}{% endblock %}">
-                                        <a class="nav-link" href="/about">About</a>
-                                    </li>
-                                    <li class="nav-item {% block nav-contact %}{% endblock %}">
-                                        <a class="nav-link" href="/contact">Contact</a>
-                                    </li>
-                                    
-                                    {% if request.user.is_authenticated %}
-
-                                        <li class="nav-item dropdown {% block nav-lout %}{% endblock %}">
-                                            <a class="nav-link dropdown-toggle" href="/account" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                              Account
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <a class="dropdown-item" href="/account">Settings</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="/logout">Logout</a>
-                                            </div>
-                                        </li>
-                                    {% endif %}
-
-                                </ul>          
-
-                             </div>
+        <div class="container-fluid vh-100">
+            <div class="row" style="height:100%">
+                <div class="col-12 offset-md-2 col-md-8 third">
+                        <div class="mt-5 d-flex justify-content-center">
+                            <div class="sitetitle" style="width:80%">
+                                <p class="text-center main_color maincontent"><strong>Glass Plates Inventory</strong></p>
+                            </div>
                         </div>
-                    </nav>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="d-none d-md-block col-lg-2 col-xl-3">
-                </div>
-                <div class="col-lg-8 col-xl-6">
 
-                    <div class="row m-5">
-                        <div class="col-12 mb-3 mb-md-0 col-md-4 centered">
-                            <a href="/collections"><button type="button" class="btn btn-primary btn-lg btn-block">Collections</button></a>
+<!--                         <div class="mt-3 d-flex justify-content-center">
+                            <div class="sitetag" style="width:80%">
+                                <p class="text-center main_color maincontent"><strong>a historic record of the night sky</strong></p>
+                            </div>
+                        </div> -->
+
+                        <div class="mt-5 d-flex justify-content-center">
+                            <div class="center indexcontent" style="width:80%">
+                                <p class="text-center main_color maincontent">
+                                    Photographic glass plates were used to capture images of the stars for over a century before the first CCD was invented.  This site collects plate information from disparate sources that catalog astronomical photographic glass plates an enables searching across all of these collections.  The goal is to empower everyone, from astronomers to historians to artists, to find photographic glass plates for their work and research.
+                                </p>
+                            </div>
                         </div>
-                        <div class="col-12 mb-3 mb-md-0 col-md-4 centered">
-                            <a href="/search"><button type="button" class="btn btn-primary btn-lg btn-block">Search</button></a>
+
+                        <div class="mt-3 d-flex justify-content-center mb-10">
+                            <div style="width:80%">
+
+                                <div class="row">
+                                    <div class="col-12 col-sm-4 centered my-3">
+                                        <a href="/archives"><button type="button" class="btn btn-primary btn-lg btn-block">Archives</button></a>
+                                    </div>
+                                    <div class="col-12 col-sm-4 centered my-3">
+                                        <a href="/search"><button type="button" class="btn btn-primary btn-lg btn-block">Search</button></a>
+                                    </div>
+                                    <div class="col-12 col-sm-4 centered my-3">
+                                        <a href="/api"><button type="button" class="btn btn-primary btn-lg btn-block">API</button></a>
+                                    </div>
+                                    <div class="col-12 col-sm-4 centered my-3">
+                                        <a href="/guides"><button type="button" class="btn btn-primary btn-lg btn-block">Guides</button></a>
+                                    </div>
+                                    <div class="col-12 col-sm-4 centered my-3">
+                                        <a href="/about"><button type="button" class="btn btn-primary btn-lg btn-block">About</button></a>
+                                    </div>
+                                    <div class="col-12 col-sm-4 centered my-3">
+                                        <a href="/contact"><button type="button" class="btn btn-primary btn-lg btn-block">Contact</button></a>
+                                    </div>
+
+
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-12 col-md-4 centered">
-                            <a href="/api"><button type="button" class="btn btn-primary btn-lg btn-block">API</button></a>
-                        </div>
-                    </div>
-                    <div class="row m-5">
-                        <div class="col-12 centered">
-                            <a href="/documentation"><button type="button" class="btn btn-primary btn-lg btn-block">Documentation</button></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-none d-md-block col-lg-2 col-xl-3">
                 </div>
             </div>
-
-
-                   
-            
-        </div>
-
-
-    <br/>
-   <!--  <div class="row fixed-bottom mainfooter">
-        <div class="col-12">
-            <div id="footer">
-              <div class="container text-center">
-                <br/>
-                <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-                <br/>&nbsp;
-              </div>
-            </div>
-        </div>
-    </div> -->
-
-
 
 </body>
 </html>

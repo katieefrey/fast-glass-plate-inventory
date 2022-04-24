@@ -3,7 +3,7 @@
 {% load static %}
 {% load to_space %}
 
-{% block nav-docs %}active{% endblock %}
+{% block nav-api %}active{% endblock %}
 
 {% block title %}
     Glass Plates Inventory
@@ -16,15 +16,52 @@
     <div class="row">
         
         <div class="newsidebar d-none d-sm-none d-md-block col-lg-3 col-md-3 col-12">
+            <table class="table">
+                <tr>
+                    <td><a href="#whatapi">What is an API?</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#gpiapi">Glass Plates Inventory API</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#sample">Sample Queries</a></td>
+                </tr>
+            </table>
         </div>
 
         <div class="col-sm-12 col-md-9 offset-md-3" id="content">
             <div class="mainstuff">
-                <h1>API Landing Page</h1>
+                <h1>API Guide</h1>
+                <br/>
+                
+                <a name="whatapi" class="anchor"></a>
+                <h2>What is an API?</h2>
+                <br/>
+                <p>API is an acronym for “Application Programming Interface,” and it is a set of well defined protocols that can be used by developers and programers to build applications and interact with data.</p>
 
-                    <p><a href="/docs">API Documentation</a></p>
-
-                    <p><a href="/api/items">API Items</a></p>
+                <p>APIs were developed in order to make it easier for one application to communicate with another application, without either application knowing how the other one was built or implemented.  Essentially, it facilitates the sharing of information in a standardized way. Application 1 sends a request for information structured in a particular way, then application 2 will respond in another particular way.  Developers can use these predictable, standardized responses to build new tools on top of existing applications.</p>
+                
+                <p>Typically, the structure most APIs use is called JSON, which stands for JavaScript Object Notation.  Despite having the word “JavaScript” in its name, JSON is not specific to any particular coding language or application.  JSON formatted data is presented as a simple series of key-value pairs, and it’s extremely flexible and extensible.</p>
+                
+                <p>RedHat has an excellent <a href="https://www.redhat.com/en/topics/api/what-are-application-programming-interfaces">guide to APIs</a> if you would like to learn more.</p>
+                <br/>
+                <a name="gpiapi" class="anchor"></a>
+                <h2>Glass Plates Inventory API</h2>
+                <br/>
+                <p>The API of the Glass Plates Inventory site allows users to list all archives currently in the database, view details about a specific archive, browse the plate collections of each archive, search for plates, and view details of a specific plate.  The API can be used to download data about multiple plates all at once in a programmatic fashion, enabling a user to collect, manipulate, and explore the data in whatever method is best suited for their use.</p>
+                <p><a href="/docs">Glass Plates Inventory API Documentation & Access</a></p>
+                <br/>
+                <a name="sample" class="anchor"></a>
+                <h2>Sample Queries</h2>
+                <br/>
+                <p>All plates with the Horsehead Nebula:<br/>
+                <a href="/api/plates?archive=all&limit=50&skip=0&obj=horsehead+nebula">/api/plates?archive=all&limit=50&skip=0&obj=horsehead+nebula</a></p>
+                
+                <p>All plates at the WFPDB that cover RA 13h 33m:<br/>                
+                <a href="/api/plates?archive=wfpdb&limit=50&skip=0&ra=13:33">/api/plates?archive=wfpdb&limit=50&skip=0&ra=13:33</a></p>
+                
+                <p>All plates at DASCH with a note indicating they are broken:<br/>
+                <a href="/api/plates?archive=dasch&limit=50&skip=0&text=broken">/api/plates?archive=dasch&limit=50&skip=0&text=broken</a></p>
 
             </div>
         </div>

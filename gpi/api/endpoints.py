@@ -62,8 +62,8 @@ sort_list = [
 def search_plates(
     skip: int = 0,
     limit: int = 50,
-    identifier: Optional[str] = None,
     archive: Optional[str] = "all",
+    identifier: Optional[str] = None,
     obj: Optional[str] = None,
     ra: Optional[str] = None,
     dec: Optional[str] = None,
@@ -90,11 +90,12 @@ def search_plates(
             dec = coords.dec.deg
         except:
             results = {
-                "total_results" : 0,
-                "num_results" : 0,
-                "results": {}
+                "total" : 0,
+                "limit" : limit,
+                "skip" : skip,
+                "results": []
             }
-            return {"error" : "no results"}
+            return results
 
     if ra != None:
         try:
@@ -106,11 +107,12 @@ def search_plates(
             query["exposure_info"] = {"$elemMatch": {"ra_deg": {"$gt": minra, "$lt": maxra}}}
         except:
             results = {
-                "total_results" : 0,
-                "num_results" : 0,
-                "results": {}
+                "total" : 0,
+                "limit" : limit,
+                "skip" : skip,
+                "results": []
             }
-            return {"error" : "no results"}
+            return results
 
     if dec != None:
         try:
@@ -122,11 +124,12 @@ def search_plates(
             query["exposure_info"] = {"$elemMatch": {"dec_deg": {"$gt": mindec, "$lt": maxdec}}}
         except:
             results = {
-                "total_results" : 0,
-                "num_results" : 0,
-                "results": {}
+                "total" : 0,
+                "limit" : limit,
+                "skip" : skip,
+                "results": []
             }
-            return {"error" : "no results"}
+            return results
 
     if ra != None and dec != None:
         del query["exposure_info"]
@@ -159,7 +162,7 @@ def search_plates(
         plates = (
                 (
                     glassplates.find(query)
-                        .sort([('identifier',pymongo.ASCENDING)])
+                        .sort([(sort_order,pymongo.ASCENDING)])
                         .collation({"locale": "en_US", "numericOrdering": True})
                     )
                     .skip(skip)
@@ -179,7 +182,13 @@ def search_plates(
         return results
 
     except:
-        return {"error" : "no results"}
+        results = {
+            "total" : 0,
+            "limit" : limit,
+            "skip" : skip,
+            "results": []
+        }
+        return results
 
 
 # show all archives
@@ -210,7 +219,13 @@ def list_archives(skip: int=0, limit: int = 50):
         return results
 
     except:
-        return {"error" : "no results"}
+        results = {
+            "total" : 0,
+            "limit" : limit,
+            "skip" : skip,
+            "results": []
+        }
+        return results
 
 # show details about one archives
 @api_router.get("/archives/{archive_id}")
@@ -231,13 +246,15 @@ def archive_details(archive_id):
         return results
 
     except:
-        return {"error" : "no results"}
+        results = {
+            "results": []
+        }
+        return results
 
 
 # show plates in specific archive
 @api_router.get("/{archive_id}")
 def List_plates_in_archive(archive_id, skip: int=0, limit: int = 50):
-    print("is this pinging?")
     try:
         query = {}
         query["archive"] = { "$regex" : archive_id, "$options" : "i"}
@@ -264,7 +281,13 @@ def List_plates_in_archive(archive_id, skip: int=0, limit: int = 50):
         return results
 
     except:
-        return {"error" : "no results"}
+        results = {
+            "total" : 0,
+            "limit" : limit,
+            "skip" : skip,
+            "results": []
+        }
+        return results
 
 
 # show one specific plate
@@ -279,7 +302,10 @@ def plate_details(archive_id, plate_id):
         return plates
 
     except:
-        return {"error" : "no results"}
+        results = {
+            "results": []
+        }
+        return results
 
 
 

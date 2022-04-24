@@ -25,24 +25,14 @@ def get_application() -> FastAPI:
 
     #print(STATIC_ROOT)
 
-    app.mount('/static',
-        StaticFiles(
-             directory=os.path.normpath(
-                  os.path.join(STATIC_ROOT, '..', 'static')
-             )
-       ),
-       name='static',
-    )
-
     # app.mount('/static',
     #     StaticFiles(
     #          directory=os.path.normpath(
-    #               os.path.join(find_spec('django.contrib.admin').origin, '..', 'static')
+    #               os.path.join(STATIC_ROOT, '..', 'static')
     #          )
     #    ),
     #    name='static',
     # )
-    #app.mount("/public/static", StaticFiles(directory="public/static"), name="static")
 
     app.add_middleware(
         CORSMiddleware,

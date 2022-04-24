@@ -28,7 +28,6 @@
                 {% endfor %}
                 <br/><br/>
                 <strong>Total Results:</strong> {{total}}<br/><br/>
-                <strong>Showing Results:</strong> {{num_start}} through {{num_end}}
             </div>
         </div>
 
@@ -51,7 +50,7 @@
                         </tr>
                         {% for x in results %}
                         <tr>
-                            <td><a href="/collections/{{x.archive}}/{{x.identifier}}">{{x.identifier}}</a><br/></td>
+                            <td><a href="/archives/{{x.archive}}/{{x.identifier}}">{{x.identifier}}</a><br/></td>
                             <td>{{x.archive}}</td>
                             <td>{{x.exposure_info.0.ra}}</td>
                             <td>{{x.exposure_info.0.dec}}</td>

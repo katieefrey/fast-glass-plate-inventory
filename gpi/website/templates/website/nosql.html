@@ -27,17 +27,26 @@
                 </p>
 
                 <p/>For example, you may have a database table of DASCH data:</p>
-
+                <div class="doc-img">
+                    <p><img style="width: 100%" src="{% static 'website/img/nosql1.png' %}"></p>
+                </div>
 
                 <p/>And let’s say you want to collect data from multiple archives into one table:</p>
-
+                <div class="doc-img">
+                    <p><img style="width: 100%" src="{% static 'website/img/nosql2.png' %}"></p>
+                </div>
 
                 <p/>Some fields, such as the Archive field in column A, contain very uniform information. This column will always contain the name of the Archive the plate is from.  Additionally, there is a known list of archives in the database, so it might make sense to put that information into its own small table that can be called on from the main table.</p>
 
                 <p/>Now the Archive column lists an ID number:</p>
-
+                <div class="doc-img">
+                    <p><img style="width: 30%" src="{% static 'website/img/nosql3.png' %}"></p>
+                </div>
 
                 <p/>And that ID number is drawn from the Archive Info Table, which can be used to correlate an ID with the archive’s name:</p>
+                <div class="doc-img">
+                    <p><img style="width: 50%" src="{% static 'website/img/nosql4.png' %}"></p>
+                </div>
 
                 <p/>Now, each Archive is named only once in the database and that information is referred to by the plate table.  This is a primary feature of SQL and relational databases.</p>
 
@@ -99,43 +108,59 @@
 
                 <p>That being said, it is still useful to have some general overall structure for the data in a noSQL database to facilitate searching.  Below are the types of information that are required and recommended for inclusion in the Glass Plates Inventory database:</p>
 
-                <p><strong>Required</strong>
-                <ul>
-                    <li>Record ID (auto generated)</li>
-                    <li>identifier</li>
-                    <li>archive</li>
-                </ul></p>
+                <div class="row">
 
-                <p><strong>Very Strongly Recommended</strong>
-                <ul>
-                    <li>ra (Right Ascension)</li>
-                    <li>dec (Declination)</li>
-                    <li>jd2000</li>
-                </ul></p>
+                    <div class="col-12 col-md-4">
+                        <p><strong>Required</strong>
+                        <ul>
+                            <li>Record ID (auto generated)</li>
+                            <li>identifier</li>
+                            <li>archive</li>
+                        </ul></p>
+                    </div>
 
-                <p><strong>Recommended</strong>
-                <ul>
-                    <li>Number of Exposures (if details about each exposure are not available)</li>
-                    <li>duration (of each exposure)</li>
-                    <li>instrument</li>
-                    <li>notes</li>
-                </ul></p>
+                    <div class="col-12 col-md-4">
+                        <p><strong>Very Strongly Recommended</strong>
+                        <ul>
+                            <li>ra (Right Ascension)</li>
+                            <li>dec (Declination)</li>
+                            <li>calendar_date</li>
+                        </ul></p>
+                    </div>
 
-                <p><strong>Nice to Have</strong>
-                <ul>
-                    <li>emulsion</li>
-                    <li>filter</li>
-                    <li>band</li>
-                    <li>target</li>
-                    <li>observer</li>
-                    <li>calendar_date</li>
-                </ul></p>
+                    <div class="col-12 col-md-4">
+                        <p><strong>Recommended</strong>
+                        <ul>
+                            <li>number of exposures (if details not available)</li>
+                            <li>duration (of each exposure)</li>
+                            <li>instrument</li>
+                            <li>notes</li>
+                            <li>jd2000</li>
+                        </ul></p>                        
+                    </div>
 
-                <p><strong>Extra</strong>
-                <ul>
-                    <li>plate dimensions</li>
-                    <li>(other fields)</li>
-                </ul></p>
+                    <div class="col-12 col-md-4">
+                        <p><strong>Nice to Have</strong>
+                        <ul>
+                            <li>emulsion</li>
+                            <li>filter</li>
+                            <li>band</li>
+                            <li>target</li>
+                            <li>observer</li>
+                        </ul></p>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <p><strong>Extra</strong>
+                        <ul>
+                            <li>plate dimensions</li>
+                            <li>filter</li>
+                            <li>band</li>
+                            <li>(other fields)</li>
+                        </ul></p>
+                    </div>
+                    
+                </div>
 
                 <p>Content stored in the Glass Plates Inventory database is organized into three categories: information about the plate itself, information about the observatory and instrument that took the plate, and information about the exposures. All data except the record id (auto generated), the plate identifier, and archive should be included in one of those three categories.</p>
 

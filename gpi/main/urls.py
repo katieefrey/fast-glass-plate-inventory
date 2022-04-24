@@ -25,7 +25,7 @@ from django.contrib.auth import get_user_model
 urlpatterns = [
     path('', include('website.urls')),
     path('admin/', admin.site.urls),
-    path('collections/', include('plates.urls')),
+    path('archives/', include('plates.urls')),
     path('search/', include('search.urls')),
     path('api/', include('test.urls')),
 ]

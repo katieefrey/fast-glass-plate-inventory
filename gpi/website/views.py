@@ -14,23 +14,44 @@ from users.models import CustomUser
 def index(request):
     return render(request, "website/index.html")
 
+def index3(request):
+    return render(request, "website/index3.html")
+
+def index4(request):
+    return render(request, "website/index4.html")
+
+def apiland(request):
+    return render(request, "website/apilanding.html")
+
 # site documentation home
 def docs(request):
     context = {
         }
     return render(request, "website/docs.html", context)
 
-# noSQL  primer
-def nosql(request):
-    context = {
-        }
-    return render(request, "website/nosql.html", context)
+# # noSQL  primer
+# def nosql(request):
+#     context = {
+#         }
+#     return render(request, "website/nosql.html", context)
+
+# # how to add an archive
+# def addarchive(request):
+#     context = {
+#         }
+#     return render(request, "website/addarchive.html", context)
 
 # how to add an archive
-def addarchive(request):
+def about(request):
     context = {
         }
-    return render(request, "website/addarchive.html", context)
+    return render(request, "website/about.html", context)
+
+# how to add an archive
+def contact(request):
+    context = {
+        }
+    return render(request, "website/contact.html", context)
 
 #send user to login form
 def login_form(request):

@@ -3,6 +3,7 @@
 /*
 
 https://coolors.co/704214-aa8e74-fff5eb-a5d4f3-7494aa-41597c-0e1e4e
+
 https://coolors.co/704214-aa8e74-eadcce-f5e9dd-faefe4-fff5eb-a5d4f3-7494aa-41597c-0e1e4e
 https://coolors.co/704214-aa8e74-fff5eb-f4f1ec-e9eded-d2e5ef-a5d4f3-7494aa-41597c-0e1e4e
 https://coolors.co/704214-aa8e74-fff5eb-faf3ec-f4f1ec-a5d4f3-7494aa-41597c-0e1e4e
@@ -16,10 +17,21 @@ https://coolors.co/704214-aa8e74-fff5eb-faf3ec-f4f1ec-a5d4f3-7494aa-41597c-0e1e4
     --primarycolor: #7494AA;
     --mainfont: #41597C;
     --lightcolor: #FAF3EC;
-    --lightcolor50: rgba(250, 243, 236, 0.8);
     --lightbluebg: #F4F1EC;
 }
 
+@media (min-width: 768px) {  
+
+    div.newsidebar {
+        padding-right: 20px;
+        padding-left: 20px;
+        padding-bottom: 20px;
+        position:fixed;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: calc(100vh - 80px);
+    }
+}
 
 div.topspacing {
     margin-top: 80px;
@@ -41,13 +53,10 @@ div.mainstuff {
 }
 
 .h1 {
-    /*font-weight: bold;*/
-    font-family: 'Lora', serif;
-    font-size: 1.5rem !important;
-
+    font-weight: bold;
 }
 
-body, .fixed-bottom, .bgcolor {
+body {
     background-color: var(--lightcolor);
 }
 
@@ -59,81 +68,7 @@ a {
     color: var(--mainfont);   
 }
 
-.anchor {
-    position:relative;
-    top:-75px;
-}
-
-.doc-img {
-    width: normal;
-    max-width: 90%;
-}
-
-.test {
-    border: 1px darkgrey solid;
-}
-
-.overlay {
-    padding: .2em;
-    margin-top:  1em;
-    position: absolute;
-    z-index: 5;
-}
-
-.overlay2 {
-    padding: .2em;
-    margin-top:  1em;
-    z-index: 5;
-}
-
-.sitetitle {
-    font-family: 'Lora', serif;
-    font-size: 2.5em;
-    background-color: var(--lightcolor50);
-}
-
-.sitetag {
-    font-family: 'Nunito', sans-serif;
-    font-size: 1.5em;
-    background-color: var(--lightcolor50);
-}
-
-.indexcontent {
-    background-color: var(--lightcolor50);
-}
-
-.text-center {
-    padding: .3em .5em;
-
-}
-
-
-.hh {
-    z-index: 1;
-    max-width: 100%;
-}
-
-p.maincontent {
-    margin: 0;
-}
-
-.hh-img {
-    position: absolute;
-    right:  0;
-    max-width: 100%;
-}
-
-.navbar-index {
-    background-color: var(--lightcolor) !important;
-    border: none !important;
-}
-
-.navbar-main {
-    background-color: var(--primarycolor) !important;
-    border: none !important;
-}
-
-.btn-primary {
+.navbar, .btn-primary {
     background-color: var(--primarycolor) !important;
     border: none !important;
 }
@@ -255,62 +190,4 @@ th.cap_info, td.cap_info {
 
 tbody tr:nth-child(odd){
   background-color: var(--lightbluebg);
-}
-
-
-
-
-.third {
-    background: url("/static/website/img/horseheadnebula.png");
-/*    color: white;
-    height: 650px;
-    padding: 100px 0 0 0;  */ 
-}
-
-.hh-img2 {
-    position: absolute;
-    right:  0;
-    max-width: 100%;
-}
-
-
-/* bootstrap small */
-@media (min-width: 576px) {
-
-/*    .reg {
-        display: block;
-    }
-
-    .hide-small {
-        display: none;
-    }*/
-
-    .hh-img {
-        position: absolute;
-        right:  0;
-        max-width: 50%;
-    }
-
-    .h1 {
-        font-size: 2rem !important;
-    }
-
-} 
-
-/* bootstrap medium */
-@media (min-width: 768px) {  
-
-    div.newsidebar {
-        padding-right: 20px;
-        padding-left: 20px;
-        padding-bottom: 20px;
-        position:fixed;
-        overflow-y: auto;
-        overflow-x: hidden;
-        max-height: calc(100vh - 80px);
-    }
-
-    .h1 {
-        font-size: 2.5rem !important;
-    }
 }

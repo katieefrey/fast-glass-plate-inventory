@@ -1,0 +1,4 @@
+// web: gunicorn main.asgi:app --log-file -
+web: gunicorn -w 1 -k uvicorn.workers.UvicornWorker main.asgi:app  --log-file -
+
+//web: uvicorn main.asgi:app --host=0.0.0.0 --port=${PORT:-5000}
